@@ -1,11 +1,12 @@
 apiVersion: apps/v1
-kind: ReplicaSet
+kind: Deployment
 metadata:
-  name: myreplicaset
+  name: mydeployment
   labels:
     app: myapp
     tier: frontend
 spec:
+  # modify replicas according to your case
   replicas: 3
   selector:
     matchLabels:
