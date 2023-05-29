@@ -1,0 +1,48 @@
+
+
+# Docs on Creating Cluster
+https://cloud.google.com/kubernetes-engine/docs/deploy-app-cluster
+
+#Docs for creating cloudvuild yaml
+https://cloud.google.com/build/docs/configuring-builds/create-basic-configuration
+
+#Docs for creating a build trigger
+https://cloud.google.com/build/docs/automating-builds/create-manage-triggers
+
+#Install the Google Cloud CLI
+https://cloud.google.com/sdk/docs/install
+https://dl.google.com/dl/cloudsdk/channels/rapid/GoogleCloudSDKInstaller.exe
+
+
+
+#Open a Command Prompt on the System
+gcloud init
+
+#Install GCloud-Auth-Plugin
+gcloud components install gke-gcloud-auth-plugin
+
+#Open a Command Prompt 
+#Migrate to the folder where you have all the source and Dockerfile
+cd <path-to-folder>
+
+#Build the Dockerfile
+docker build -t gcr.io/sit-faisal-alam-dc41412/node-web-app:latest .
+
+#Push Docker Image to gcr
+docker push gcr.io/sit-faisal-alam-dc41412/node-web-app:latest
+
+#Install Kubectl just In Case (Might be Good)
+gcloud components install kubectl
+
+#Create The cluster
+gcloud container clusters create-auto hello-cluster --region=us-west1
+
+#Connect to the Cluster
+gcloud container clusters get-credentials hello-cluster  --region=us-west1
+
+#Create the Deployment on the cluster
+kubectl apply -f createDeployment.yaml
+
+
+#Create a service by exposing the Deployment
+kubectl expose deployment mydeployment --type LoadBalancer --port 80 --target-port 8080
