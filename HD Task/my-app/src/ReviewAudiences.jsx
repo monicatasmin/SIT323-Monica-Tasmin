@@ -73,7 +73,7 @@ class App extends React.Component {
   render() {
     const { listings, reviews, newReview, comments, newComment, userEmail, userStatus, filterType } = this.state;
 
-    const filteredListings = // Perform filtering based on filterType
+    const filteredListings = // Filter func
 
     return (
       <div className="App">
