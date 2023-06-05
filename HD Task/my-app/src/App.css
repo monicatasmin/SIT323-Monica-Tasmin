@@ -1,0 +1,23 @@
+.img-container {
+  height: 250px;
+  overflow: hidden;
+}
+
+@media (max-width: 1000px) {
+  .navbar-collapse {
+    background-color: #343a40;
+  }
+
+  .navbar-toggler-icon {
+    background-color: #fff;
+  }
+}
+
+@media (min-width: 600px) {
+  .imgContainer, 
+  .container-sm {
+    max-width: 100% !important;
+    max-height: 100% !important;
+  }
+}
+
