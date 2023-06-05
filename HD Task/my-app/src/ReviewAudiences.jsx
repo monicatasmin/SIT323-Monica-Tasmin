@@ -6,23 +6,12 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      // Initialize state properties
       reviews: [],
       newReview: '',
-      comments: [
-        {
-          email: 'example1@example.com',
-          status: 'Former Tenant',
-          comment: 'This is a great place to live!',
-          reviewIndex: 0,
-        },
-        {
-          email: 'example2@example.com',
-          status: 'Current Tenant',
-          comment: 'I had a good experience here.',
-          reviewIndex: 1,
-        },
-      ],
+      comments: [],
       listings: [
+        // Passing property listings data
         {
           image: 'https://i2.au.reastatic.net/800x600-format=webp/834c6299504b1fa49683d16ec8aad29a115b2c914e5e4f2922e6ec46d0981075/image.jpg',
           address: '1105/442 Elizabeth Street, Melbourne, VIC 3000',
@@ -50,14 +39,13 @@ class App extends React.Component {
     };
   }
 
-  handleReviewInputChange = (event) => {
-    this.setState({ newReview: event.target.value });
+  /* Handles changes in input fields */
+  handleInputChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   };
 
-  handleCommentInputChange = (event) => {
-    this.setState({ newComment: event.target.value });
-  };
-
+  /* Handles form submission */
   handleFormSubmit = (event, index) => {
     event.preventDefault();
     const { newReview, newComment, userEmail, userStatus, reviews, comments } = this.state;
@@ -82,134 +70,57 @@ class App extends React.Component {
     }
   };
 
-  handleEmailInputChange = (event) => {
-    this.setState({ userEmail: event.target.value });
-  };
-
-  handleStatusInputChange = (event) => {
-    this.setState({ userStatus: event.target.value });
-  };
-
-  handleFilterTypeChange = (event) => {
-    this.setState({ filterType: event.target.value });
-  };
-
   render() {
     const { listings, reviews, newReview, comments, newComment, userEmail, userStatus, filterType } = this.state;
 
-    const filteredListings = filterType === 'All' ? listings : listings.filter((listing) => listing.type === filterType);
+    const filteredListings = // Perform filtering based on filterType
 
     return (
-      <div className="container mt-5">
-        <h2 className="text-center">Reviews</h2>
-        <div className="row justify-content-center">
-          <div className="col-md-6">
-            <select className="form-control" value={filterType} onChange={this.handleFilterTypeChange}>
-              <option value="All">All</option>
-              <option value="Apartment">Apartment</option>
-              <option value="Sharehouse">Sharehouse</option>
-              <option value="Student Accommodation">Student Accommodation</option>
-            </select>
-          </div>
-        </div>
-        <br />
-        <div className="row justify-content-center">
-          {filteredListings.map((listing, index) => {
-            const listingReviews = reviews[index] ? comments.filter((comment) => comment.reviewIndex === index) : [];
-
-            return (
-              <div key={index} className="col-md-6 mb-4">
-                <div className="card">
-                  <img src={listing.image} className="card-img-top" style={{ height: 400 }} alt="Listing" />
-                  <div className="card-body">
-                    <h5 className="card-title">
-                      <a>Address: </a>
-                      <a
-                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(listing.address)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {listing.address}
-                      </a>
-                    </h5>
-                    <p className="card-text">Type: {listing.type}</p>
-                    <form onSubmit={(event) => this.handleFormSubmit(event, index)}>
-                      <div className="form-group">
-                        <label htmlFor="reviewInput">Add Review Summary:</label>
-                        <textarea
-                          className="form-control"
-                          id="reviewInput"
-                          rows="3"
-                          value={newReview}
-                          onChange={this.handleReviewInputChange}
-                        ></textarea>
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="emailInput">Email:</label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          id="emailInput"
-                          placeholder="Enter your email"
-                          value={userEmail}
-                          onChange={this.handleEmailInputChange}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="statusInput">Status:</label>
-                        <select
-                          className="form-control"
-                          id="statusInput"
-                          value={userStatus}
-                          onChange={this.handleStatusInputChange}
-                        >
-                          <option value="">Select Status</option>
-                          <option value="Former Tenant">Former Tenant</option>
-                          <option value="Current Tenant">Current Tenant</option>
-                        </select>
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="commentInput">Add your comment:</label>
-                        <textarea
-                          className="form-control"
-                          id="commentInput"
-                          rows="3"
-                          placeholder="Enter your comment"
-                          value={newComment}
-                          onChange={this.handleCommentInputChange}
-                        ></textarea>
-                      </div><br></br>
-                      <button type="submit" className="btn btn-primary">
-                        Submit
-                      </button>
-                    </form>
-                    {reviews[index] && (
-                      <div className="card mt-4">
-                        <div className="card-body">
-                          {listingReviews.map((comment, i) => (
-                            <div key={i} className="card bg-light mb-3">
-                              <div className="card-body">
-                                <h5 className="card-title">{reviews[index]}</h5>
-                                <p className="card-text">
-                                  <strong>Email:</strong> {comment.email}
-                                </p>
-                                <p className="card-text">
-                                  <strong>Status:</strong> {comment.status}
-                                </p>
-                                <p className="card-text">
-                                  <strong>Comment:</strong> {comment.comment}
-                                </p>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
+      <div className="App">
+        <TopNav
+          // Pass necessary props to topnav component
+        />
+        <div className="container">
+          <h1>Property Listings</h1>
+          {/* Render property listings */}
+          {filteredListings.map((listing, index) => (
+            <div key={index} className="listing">
+              <img src={listing.image} alt="Property" />
+              <p>{listing.address}</p>
+              <p>{listing.type}</p>
+              <div className="reviews">
+                {/* Render reviews */}
+                {reviews[index] ? (
+                  <p>{reviews[index]}</p>
+                ) : (
+                  <p>No reviews yet</p>
+                )}
               </div>
-            );
-          })}
+              <div className="comments">
+                {/* Render comments */}
+                {comments.map((comment, commentIndex) => {
+                  if (comment.reviewIndex === index) {
+                    return (
+                      <div key={commentIndex} className="comment">
+                        <p>{comment.email} ({comment.status}):</p>
+                        <p>{comment.comment}</p>
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+              <form onSubmit={(event) => this.handleFormSubmit(event, index)}>
+                <input
+                  type="text"
+                  name="newComment"
+                  value={newComment}
+                  onChange={this.handleInputChange}
+                  placeholder="Add a comment..."
+                />
+                <button type="submit">Submit</button>
+              </form>
+            </div>
+          ))}
         </div>
       </div>
     );
